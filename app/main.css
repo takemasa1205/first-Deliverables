@@ -1,0 +1,229 @@
+[v-cloak] {
+    display: none;
+}
+
+body {
+    margin: 0;
+    overflow: hidden;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+}
+
+.header {
+    position: sticky;
+    top: 0;
+    width: 100vw;
+    min-height: 100px;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid lightgray;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    box-sizing: border-box;
+    margin-right: 20%;
+}
+
+.header h1 {
+    font-size: calc(1rem + 0.5vw); /* フォントサイズを半分に */
+    max-width: 30%; /* タイトルの幅を制限 */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.searchArea {
+    display: flex;
+    align-items: center;
+    margin-left: 0;
+}
+
+.searchBox {
+    width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid lightgray;
+    border-radius: 4px;
+}
+
+.searchButton {
+    padding: 10px;
+    margin-left: 10px;
+    background-color: #007bff; /* メインカラー1 */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.searchButton:hover {
+    transform: scale(1.05);
+    background-color: #0056b3; /* ホバー時の色 */
+}
+
+.searchButton:active {
+    background-color: #004080; /* クリック時の色 */
+}
+
+.searchButton:focus {
+    outline: 3px solid #0056b3; /* フォーカス時のアウトライン */
+}
+
+.addMemoButton {
+    padding: 10px;
+    margin-left: 10px;
+    background-color: #28a745; /* メインカラー2 */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.addMemoButton:hover {
+    transform: scale(1.05);
+    background-color: #218838; /* ホバー時の色 */
+}
+
+.addMemoButton:active {
+    background-color: #1e7e34; /* クリック時の色 */
+}
+
+.addMemoButton:focus {
+    outline: 3px solid #218838; /* フォーカス時のアウトライン */
+}
+
+.deleteMemosButton {
+    padding: 10px;
+    margin-left: 10px;
+    background-color: #dc3545; /* メインカラー3 */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.deleteMemosButton:hover {
+    transform: scale(1.05);
+    background-color: #c82333; /* ホバー時の色 */
+}
+
+.deleteMemosButton:active {
+    background-color: #bd2130; /* クリック時の色 */
+}
+
+.deleteMemosButton:focus {
+    outline: 3px solid #c82333; /* フォーカス時のアウトライン */
+}
+
+.showImageMemosButton {
+    padding: 10px;
+    margin-left: 10px;
+    background-color: #17a2b8; /* メインカラー4 */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.showImageMemosButton:hover {
+    transform: scale(1.05);
+    background-color: #138496; /* ホバー時の色 */
+}
+
+.showImageMemosButton:active {
+    background-color: #117a8b; /* クリック時の色 */
+}
+
+.showImageMemosButton:focus {
+    outline: 3px solid #138496; /* フォーカス時のアウトライン */
+}
+
+.contents {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.sidebar {
+    width: 15vw;
+    background-color: #f0f0f0;
+    border-left: 1px solid lightgray;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.sidebar ul {
+    padding: 0;
+    list-style: none;
+}
+
+.sidebar li {
+    margin-bottom: 10px;
+    cursor: pointer;
+    color: #007bff;
+}
+
+.mainArea {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.memo {
+    width: 15%;
+    border: 1px solid lightgray;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.memoImage {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#modalContents {
+    background-color: white;
+    padding: 20px;
+    border-radius: 4px;
+    width: 50%;
+    max-height: 80%;
+    overflow-y: auto;
+}
+
+/* 新規モーダルスタイル */
+#deleteModalContents {
+    background-color: white;
+    padding: 20px;
+    border-radius: 4px;
+    width: 40%;
+    max-height: 80%;
+    overflow-y: auto;
+}

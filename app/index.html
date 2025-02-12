@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Report Prototype</title>
+    <link rel="stylesheet" href="main.css" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="page.js"></script>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <div class="header">
+            <h1>メモ管理アプリ</h1>
+
+            <div class="searchArea">
+                <input class="searchBox" type="text" v-model="searchWord" placeholder="検索...">
+                <button class="searchButton" @click="searchMemos">検索</button>
+            </div>
+
+            <button @click="filterByImage" class="showImageMemosButton">写真のあるメモを表示</button>
+            <button @click="openModal" class="addMemoButton">メモを追加</button>
+            <button @click="openDeleteModal" class="deleteMemosButton">メモの削除</button>
+        </div>
+
+        <div class="contents">
+            <div class="mainArea">
+                <div class="memo" v-for="memo in memos" :key="memo.id" @click="selectMemo(memo)">
+                    <h3>{{ memo.title }}</h3>
+                    <img :src="memo.image" alt="メモ画像" class="memoImage">
+                </div>
+
+                <!-- メモ追加・編集モーダル -->
+                <div class="overlay" v-if="showModal">
+                    <div id="modalContents">
+                        <h2>{{ selectedMemo ? 'メモの詳細' : 'メモを追加' }}</h2>
+                        <form @submit.prevent="selectedMemo ? updateMemo() : addMemo()">
+                            <div>
+                                <label for="category">カテゴリ:</label>
+                                <select id="category" v-model="category" @change="onCategoryChange">
+                                    <option value="">カテゴリを選択</option>
+                                    <option v-for="cat in categories" :value="cat" :key="cat">{{ cat }}</option>
+                                </select>
+                                <button type="button" @click="openCategoryModal">カテゴリを追加</button>
+                                <input v-if="isNewCategory" type="text" v-model="newCategory" placeholder="新しいカテゴリ名">
+                            </div>
+                            <div>
+                                <label for="title">タイトル:</label>
+                                <input type="text" id="title" v-model="title">
+                            </div>
+                            <div>
+                                <label for="image">画像URL:</label>
+                                <input type="text" id="image" v-model="image">
+                                <input type="file" @change="handleFileUpload">
+                            </div>
+                            <div>
+                                <label for="memo">メモ内容:</label>
+                                <textarea id="memo" v-model="memoContent"></textarea>
+                            </div>
+                            <button type="submit">{{ selectedMemo ? '更新' : '追加' }}</button>
+                            <button type="button" @click="closeModal">閉じる</button>
+                        </form>
+                        <div v-if="selectedMemo">
+                            <p>カテゴリ: {{ selectedMemo.category }}</p>
+                            <p>タイトル: {{ selectedMemo.title }}</p>
+                            <p>画像: <img :src="selectedMemo.image" alt="メモ画像" class="memoImage"></p>
+                            <p>メモ: {{ selectedMemo.memo }}</p>
+                            <p>日付: {{ selectedMemo.date }}</p>
+                            <button @click="deleteMemo">削除</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- メモ削除モーダル -->
+                <div class="overlay" v-if="showDeleteModal">
+                    <div id="modalContents">
+                        <h2>メモを削除</h2>
+                        <form @submit.prevent="deleteSelectedMemos">
+                            <div v-for="memo in memos" :key="memo.id">
+                                <input type="checkbox" :value="memo.id" v-model="selectedMemos">
+                                {{ memo.title }}
+                            </div>
+                            <button type="submit">削除</button>
+                            <button type="button" @click="closeDeleteModal">閉じる</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- カテゴリ追加モーダル -->
+                <div class="overlay" v-if="showCategoryModal">
+                    <div id="modalContents">
+                        <h2>新しいカテゴリを追加</h2>
+                        <form @submit.prevent="addNewCategory">
+                            <div>
+                                <label for="newCategory">カテゴリ名:</label>
+                                <input type="text" id="newCategory" v-model="newCategory">
+                            </div>
+                            <button type="submit">追加</button>
+                            <button type="button" @click="closeCategoryModal">閉じる</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- カテゴリー編集モーダル -->
+                <div class="overlay" v-if="showCategoryEditModal">
+                    <div id="modalContents">
+                        <h2>カテゴリー編集</h2>
+                        <form @submit.prevent="updateCategories">
+                            <div>
+                                <label for="newCategory">新しいカテゴリ名:</label>
+                                <input type="text" id="newCategory" v-model="newCategory">
+                            </div>
+                            <button type="button" @click="addCategory">追加</button>
+                            <h3>削除するカテゴリ:</h3>
+                            <div v-for="category in categories" :key="category">
+                                <input type="checkbox" :value="category" v-model="categoriesToDelete">
+                                {{ category }}
+                            </div>
+                            <button type="button" @click="deleteCategories">削除</button>
+                            <button type="button" @click="closeCategoryEditModal">閉じる</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar">
+                <ul>
+                    <li @click="filterByCategory('')">全て</li>
+                    <li v-for="category in categories" :key="category" @click="filterByCategory(category)">{{ category }}</li>
+                </ul>
+                <!-- カテゴリー編集ボタン -->
+                <button @click="openCategoryEditModal" class="editCategoriesButton">カテゴリー編集</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
